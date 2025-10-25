@@ -1,0 +1,54 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html,
+body {
+    /* allow the page to grow and avoid forcing 100vw which can cause overlay issues */
+    min-height: 100vh;
+    width: 100%;
+    background-color: black;
+    color: white;
+    overflow-x: hidden;
+}
+
+/* always show the vertical scrollbar space to avoid overlaying content on some platforms */
+html {
+    overflow-y: scroll;
+}
+#page1, #page2, #page3 {
+    /* each section should fill the viewport height */
+    height: 100vh;
+    width: 100%;
+    padding: 20px;
+}
+#ScrollHeading {
+    font-size: 25vw;
+    color: white;
+    margin: 0;
+    /* prevent wrapping so the heading can scroll horizontally */
+    white-space: nowrap;
+    display: inline-block;
+    z-index: 5;
+    /* make sure initial transform is visible and optimized for animation */
+    transform: translateX(0);
+    opacity: 1;
+    will-change: transform;
+}
+#page1 {
+    background-color: #1abc9c;
+}
+#page2 {
+    background-color: black;
+    /* center the heading vertically and horizontally inside the pinned section */
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* clip overflow so the huge heading doesn't visually overlap the browser scrollbar */
+    overflow: hidden;
+}
+#page3 {
+    background-color: #9b59b6;
+}
