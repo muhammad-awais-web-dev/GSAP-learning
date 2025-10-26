@@ -1,12 +1,10 @@
 const menuItems = document.getElementsByClassName("menuitem");
 Array.from(menuItems).forEach(item => {
-    item.addEventListener("mouseenter", () => {
-        // Handle mouse enter
-        // use the `item` reference (arrow functions don't bind `this`)
-        const overlay = item.querySelector('.overlay');
-        if (!overlay) return;
+    const overlay = item.querySelector('.overlay');
+    if (!overlay) return;
 
-        gsap.to(overlay, {
+    var tl1 = gsap.timeline({paused: true});
+    tl1.to(overlay, {
             width: "100%",
             height: "100%",
             duration: 0.3,
@@ -16,33 +14,44 @@ Array.from(menuItems).forEach(item => {
         const over = item.querySelector('.over');
         if (!over) return;
 
-        gsap.to(over, {
+        tl1.to(over, {
             width: "100%",
             height: "100%",
             duration: 0.3,
             borderRadius: "0%",
             ease: "power1.out"
-        });
+        }, "-=0.3");
+    item.addEventListener("mouseenter", () => {
+        tl1.play();
     });
     item.addEventListener("mouseleave", () => {
-        // Handle mouse leave - revert overlay to original state
-        const overlay = item.querySelector('.overlay');
-        if (!overlay) return;
-        gsap.to(overlay, {
-            width: "0%",
-            height: "0%",
-            duration: 0.25,
-            borderRadius: "50%",
-            ease: "power1.in"
-        });
-        const over = item.querySelector('.over');
-        if (!over) return;
-        gsap.to(over, {
-            width: "0%",
-            height: "0%",
-            duration: 0.25,
-            borderRadius: "50%",
-            ease: "power1.in"
-        });
+        tl1.reverse();
     });
+});
+
+const openButton = document.getElementById("openButton");
+const closeButton = document.getElementById("closeButton");
+const menuItemsContainer = document.getElementById("menuitems");
+
+var tl = gsap.timeline({paused: true,});
+
+tl.to("#menuitems", {
+    y: "100vh",
+    duration: .5,
+    ease: "power1.out"
+});
+tl.from("#menuitems .menuitem", {
+    y: "-100vh",
+    duration: .5,
+    ease: "power1.out",
+    stagger: 0.1
+}, "-=0.1");
+
+openButton.addEventListener("click", () => {
+    tl.play();
+    console.log("Menu Opened");
+});
+
+closeButton.addEventListener("click", () => {
+    tl.reverse();
 });
